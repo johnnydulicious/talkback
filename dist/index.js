@@ -358,7 +358,6 @@ function () {
     key: "sleep",
     value: function sleep(ms) {
       ms = this.getRandomInt(1, ms / 1000) * 1000;
-      this.options.logger.log("Delay option is active - delaying reply for ".concat(ms, " ms."));
       return new Promise(function (resolve) {
         return setTimeout(resolve, ms);
       });
