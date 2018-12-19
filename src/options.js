@@ -1,46 +1,47 @@
 import Logger from "./logger"
 
 const defaultOptions = {
-  port: 8080,
-  path: "./tapes/",
-  record: true,
-  name: "unnamed",
+    port: 8080,
+    path: "./tapes/",
+    record: true,
+    name: "unnamed",
 
-  https: {
-    enabled: false,
-    keyPath: null,
-    certPath: null
-  },
-  ignoreHeaders: ["content-length", "host"],
-  ignoreQueryParams: [],
-  ignoreBody: false,
+    https: {
+        enabled: false,
+        keyPath: null,
+        certPath: null
+    },
+    ignoreHeaders: ["content-length", "host"],
+    ignoreQueryParams: [],
+    ignoreBody: false,
 
-  bodyMatcher: null,
-  urlMatcher: null,
+    bodyMatcher: null,
+    urlMatcher: null,
 
-  responseDecorator: null,
+    responseDecorator: null,
 
-  fallbackMode: "404",
+    fallbackMode: "404",
 
-  silent: false,
-  summary: true,
-  debug: false
+    silent: false,
+    summary: true,
+    debug: false,
+    delay: 0
 }
 
 export default class Options {
-  static prepare(usrOpts = {}) {
-    const opts = {
-      ...defaultOptions,
-      name: usrOpts.host,
-      ...usrOpts,
-      ignoreHeaders: [
-        ...defaultOptions.ignoreHeaders,
-        ...(usrOpts.ignoreHeaders || [])
-      ]
+    static prepare(usrOpts = {}) {
+        const opts = {
+            ...defaultOptions,
+            name: usrOpts.host,
+            ...usrOpts,
+            ignoreHeaders: [
+                ...defaultOptions.ignoreHeaders,
+                ...(usrOpts.ignoreHeaders || [])
+            ]
+        }
+
+        opts.logger = new Logger(opts)
+
+        return opts
     }
-
-    opts.logger = new Logger(opts)
-
-    return opts
-  }
 }
