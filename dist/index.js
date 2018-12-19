@@ -262,6 +262,27 @@ function () {
   return Tape;
 }();
 
+var Util =
+/*#__PURE__*/
+function () {
+  function Util(options) {
+    _classCallCheck(this, Util);
+
+    this.options = options;
+  }
+
+  _createClass(Util, [{
+    key: "sleep",
+    value: function sleep(ms) {
+      return new Promise(function (resolve) {
+        return setTimeout(resolve, ms);
+      });
+    }
+  }]);
+
+  return Util;
+}();
+
 var fetch = require("node-fetch");
 
 var RequestHandler =
@@ -289,7 +310,7 @@ function () {
                 resTape = this.tapeStore.find(reqTape);
 
                 if (!resTape) {
-                  _context.next = 7;
+                  _context.next = 10;
                   break;
                 }
 
@@ -301,37 +322,46 @@ function () {
                   }
                 }
 
-                resObj = resTape.res;
-                _context.next = 18;
-                break;
-
-              case 7:
-                if (!this.options.record) {
-                  _context.next = 15;
+                if (!(this.options.delay > 0)) {
+                  _context.next = 7;
                   break;
                 }
 
-                _context.next = 10;
-                return this.makeRealRequest(req);
+                _context.next = 7;
+                return Util.sleep(delay);
+
+              case 7:
+                resObj = resTape.res;
+                _context.next = 21;
+                break;
 
               case 10:
+                if (!this.options.record) {
+                  _context.next = 18;
+                  break;
+                }
+
+                _context.next = 13;
+                return this.makeRealRequest(req);
+
+              case 13:
                 resObj = _context.sent;
                 reqTape.res = _objectSpread({}, resObj);
                 this.tapeStore.save(reqTape);
-                _context.next = 18;
+                _context.next = 21;
                 break;
 
-              case 15:
-                _context.next = 17;
+              case 18:
+                _context.next = 20;
                 return this.onNoRecord(req);
 
-              case 17:
+              case 20:
                 resObj = _context.sent;
 
-              case 18:
+              case 21:
                 return _context.abrupt("return", resObj);
 
-              case 19:
+              case 22:
               case "end":
                 return _context.stop();
             }
@@ -855,7 +885,8 @@ var defaultOptions = {
   fallbackMode: "404",
   silent: false,
   summary: true,
-  debug: false
+  debug: false,
+  delay: 0
 };
 
 var Options =
@@ -873,7 +904,7 @@ function () {
       var opts = _objectSpread({}, defaultOptions, {
         name: usrOpts.host
       }, usrOpts, {
-        ignoreHeaders: _toConsumableArray(defaultOptions.ignoreHeaders).concat(_toConsumableArray(usrOpts.ignoreHeaders || []))
+        ignoreHeaders: [].concat(_toConsumableArray(defaultOptions.ignoreHeaders), _toConsumableArray(usrOpts.ignoreHeaders || []))
       });
 
       opts.logger = new Logger(opts);
