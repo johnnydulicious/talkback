@@ -59,6 +59,8 @@ Returns an unstarted talkback server instance.
 | **silent** | `Boolean` | Enable requests information console messages in the middle of requests | `false` |
 | **summary** | `Boolean` | Enable exit summary of new and unused tapes at exit. [More info](#exit-summary) | `true` |
 | **debug** | `Boolean` | Enable verbose debug information | `false` |
+| **delay** | `Integer` | Amount of delay before playing back a taped response | `0` |
+
 
 ### HTTPS options
 | Name | Type | Description | Default |

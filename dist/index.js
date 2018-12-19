@@ -328,7 +328,7 @@ function () {
                 }
 
                 _context.next = 7;
-                return Util.sleep(delay);
+                return Util.sleep(this.options.delay);
 
               case 7:
                 resObj = resTape.res;
