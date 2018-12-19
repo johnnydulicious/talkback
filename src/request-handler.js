@@ -24,7 +24,7 @@ export default class RequestHandler {
             }
 
             if (this.options.delay > 0) {
-                await Util.sleep(delay);
+                await Util.sleep(this.options.delay);
             }
 
             resObj = resTape.res
