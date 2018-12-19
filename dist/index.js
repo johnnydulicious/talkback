@@ -262,27 +262,6 @@ function () {
   return Tape;
 }();
 
-var Util =
-/*#__PURE__*/
-function () {
-  function Util(options) {
-    _classCallCheck(this, Util);
-
-    this.options = options;
-  }
-
-  _createClass(Util, [{
-    key: "sleep",
-    value: function sleep(ms) {
-      return new Promise(function (resolve) {
-        return setTimeout(resolve, ms);
-      });
-    }
-  }]);
-
-  return Util;
-}();
-
 var fetch = require("node-fetch");
 
 var RequestHandler =
@@ -328,7 +307,7 @@ function () {
                 }
 
                 _context.next = 7;
-                return Util.sleep(this.options.delay);
+                return this.sleep(this.options.delay);
 
               case 7:
                 resObj = resTape.res;
@@ -375,6 +354,13 @@ function () {
 
       return handle;
     }()
+  }, {
+    key: "sleep",
+    value: function sleep(ms) {
+      return new Promise(function (resolve) {
+        return setTimeout(resolve, ms);
+      });
+    }
   }, {
     key: "onNoRecord",
     value: function () {

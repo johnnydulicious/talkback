@@ -1,7 +1,6 @@
 const fetch = require("node-fetch")
 
 import Tape from "./tape"
-import Util from "./utils/util"
 
 export default class RequestHandler {
     constructor(tapeStore, options) {
@@ -24,7 +23,7 @@ export default class RequestHandler {
             }
 
             if (this.options.delay > 0) {
-                await Util.sleep(this.options.delay);
+                await this.sleep(this.options.delay);
             }
 
             resObj = resTape.res
@@ -39,6 +38,10 @@ export default class RequestHandler {
         }
 
         return resObj
+    }
+
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
     }
 
     async onNoRecord(req) {
